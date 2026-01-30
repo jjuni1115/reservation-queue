@@ -1,10 +1,9 @@
 package com.study.reservationqueue.endpoint;
 
+import com.study.reservationqueue.dto.TokenDto;
 import com.study.reservationqueue.service.EntryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/entry")
@@ -14,9 +13,16 @@ public class EntryEndpoint {
     private final EntryService entryService;
 
     @PostMapping("")
-    public void entryQueue() {
+    public TokenDto entryQueue() {
 
-        entryService.entryQueue();
+        return entryService.entryQueue();
+
+    }
+
+    @GetMapping("/check-status")
+    public TokenDto getQueueRank(@RequestParam String token) {
+
+        return entryService.getQueueRank(token);
 
     }
 
