@@ -26,4 +26,11 @@ public class EntryEndpoint {
 
     }
 
+    @PostMapping("/exit")
+    public void exitQueue(@RequestParam String token) {
+
+        entryService.exit(token);
+
+    }
+
 }
