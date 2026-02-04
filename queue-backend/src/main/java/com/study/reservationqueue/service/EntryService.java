@@ -4,11 +4,10 @@ import com.study.reservationqueue.dto.TokenDto;
 import com.study.reservationqueue.type.UserStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.connection.zset.Tuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.Set;
@@ -22,9 +21,9 @@ public class EntryService {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    private static final Duration TOKEN_TTL = Duration.ofMinutes(5);
+    private static final Duration TOKEN_TTL = Duration.ofMinutes(3);
 
-    private final int MAX_ACTIVE = 1;
+    private final int MAX_ACTIVE = 10;
 
     public TokenDto entryQueue() {
 
@@ -52,7 +51,7 @@ public class EntryService {
 
         redisTemplate.opsForValue().decrement("reservation:activeCount", 1);
 
-        redisTemplate.opsForValue().set("reservation:token:" + token, UserStatus.WAIT.getStatus(), TOKEN_TTL);
+        redisTemplate.opsForValue().set("reservation:token:" + token, UserStatus.WAIT.getStatus());
 
 
         ZSetOperations<String, String> sortedSet = redisTemplate.opsForZSet();
@@ -151,6 +150,8 @@ public class EntryService {
 
     }
 
+
+
     public void exit(String token){
 
         String status = redisTemplate.opsForValue().get("reservation:token:"+token);
@@ -171,6 +172,11 @@ public class EntryService {
 
 
 
+    }
+
+    @Scheduled(fixedDelay = 5000)
+    private void promoteScheduled(){
+        promoteBatch();
     }
 
 }
