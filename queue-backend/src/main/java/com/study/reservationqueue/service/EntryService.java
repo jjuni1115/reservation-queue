@@ -21,7 +21,7 @@ public class EntryService {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    private static final Duration TOKEN_TTL = Duration.ofMinutes(3);
+    private static final Duration TOKEN_TTL = Duration.ofSeconds(10);
 
     private final int MAX_ACTIVE = 10;
 
@@ -31,21 +31,6 @@ public class EntryService {
 
         log.info("Generated Token: {}", token);
 
-        Long activeCount = redisTemplate.opsForValue().increment("reservation:activeCount", 1);
-
-        if (activeCount <= MAX_ACTIVE) {
-            log.info("User with token {} has entered the reservation system.", token);
-            redisTemplate.opsForSet().add("reservation:entered", token);
-
-            redisTemplate.opsForValue().set("reservation:token:" + token, UserStatus.ENTER.getStatus(), TOKEN_TTL);
-
-            TokenDto res = TokenDto.builder()
-                    .token(token)
-                    .status(UserStatus.ENTER.getStatus())
-                    .build();
-
-            return res;
-        }
 
         log.info("User with token {} is placed in the waiting queue.", token);
 
