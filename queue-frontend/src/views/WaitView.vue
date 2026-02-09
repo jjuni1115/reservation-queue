@@ -42,8 +42,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="container">
-    <div class="card">
+  <div class="wait-page page-enter">
+    <div class="card stagger">
       <div class="spinner"></div>
 
       <h2>접속자가 많습니다</h2>
@@ -60,35 +60,35 @@ onUnmounted(() => {
       </div>
 
       <p class="hint">
-        새로고침하지 말고 잠시만 기다려주세요 🙏
+        새로고침하지 말고 잠시만 기다려주세요.
       </p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
+.wait-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
 }
 
 .card {
-  background: #ffffff;
-  width: 360px;
+  width: min(380px, 100%);
+  background: rgba(248, 250, 252, 0.98);
+  color: var(--ink-900);
   padding: 36px;
-  border-radius: 16px;
+  border-radius: 22px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-strong);
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #e5e7eb;
-  border-top: 4px solid #3b82f6;
+  width: 44px;
+  height: 44px;
+  border: 4px solid rgba(15, 23, 42, 0.12);
+  border-top: 4px solid var(--accent-500);
   border-radius: 50%;
   margin: 0 auto 20px;
   animation: spin 1s linear infinite;
@@ -96,37 +96,38 @@ onUnmounted(() => {
 
 h2 {
   font-size: 20px;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
 }
 
 .desc {
   font-size: 14px;
-  color: #555;
-  margin-bottom: 24px;
-  line-height: 1.5;
+  color: var(--ink-500);
+  margin: 0 0 24px;
+  line-height: 1.6;
 }
 
 .rank-box {
-  background: #f1f5f9;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(20, 184, 166, 0.12));
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-bottom: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .rank-box span {
   display: block;
   font-size: 12px;
-  color: #666;
+  color: var(--ink-500);
 }
 
 .rank-box strong {
   font-size: 28px;
-  color: #0f172a;
+  color: var(--ink-900);
 }
 
 .hint {
   font-size: 12px;
-  color: #777;
+  color: var(--ink-500);
 }
 
 @keyframes spin {
