@@ -1,5 +1,5 @@
 <script setup>
-import { queueStatus } from '@/api/queueApi'
+import { queueStatus } from '@/api/queueApi.js'
 import { useQueueStore } from '@/stores/queueStore'
 import { useRouter } from 'vue-router'
 import { onMounted, onUnmounted, ref } from 'vue'

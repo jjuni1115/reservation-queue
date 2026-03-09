@@ -1,7 +1,8 @@
 <script setup>
-import {entry} from '@/api/queueApi'
+import {entry} from '@/api/queueApi.js'
 import {useQueueStore} from '@/stores/queueStore'
 import {useRouter} from 'vue-router'
+import {computed, watch} from "vue";
 
 const store = useQueueStore();
 const router = useRouter();
@@ -18,6 +19,7 @@ const start = async () => {
     store.setStatus(res.data.token, res.data.rank)
     router.push('/wait')
   }
+
 }
 
 </script>

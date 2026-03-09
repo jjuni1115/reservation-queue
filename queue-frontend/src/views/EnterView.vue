@@ -1,5 +1,5 @@
 <script setup>
-import { exit } from '@/api/queueApi'
+import { exit } from '@/api/queueApi.js'
 import { useQueueStore } from '@/stores/queueStore'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
